@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h1 id="socket">Websocket</h1>
+<input type="text" id="msg" onkeypress="typeMessage()" onkeyup="keydown()">
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    var socket = new SockJS("/websocket-connection");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        // stompClient.subscribe("/topic/date", function (payload) {
+        //     document.getElementById("socket").innerText = payload.body
+        // })
+
+
+    })
+
+
+    function typeMessage() {
+        // console.log("typeMessage func")
+        stompClient.send("/app/type",null,
+            "typing..."
+        )
+    }
+
+    function keydown(){
+        // console.log("keydown")
+
+        // stompClient.send("/app/keydown",null,
+        //     // "typing..."
+        //     {}
+        // )
+
+        setTimeout(function (){
+            stompClient.send("/app/keydown",null, "message")
+
+        },3000)
+    }
+
+
+
+
+</script>

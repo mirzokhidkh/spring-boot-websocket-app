@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+<h1 id="message">Message</h1>
+</body>
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    var socket = new SockJS("/websocket-connection");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe("/topic/type", function (payload) {
+            document.getElementById("message").innerText = payload.body
+        })
+
+        stompClient.subscribe("/topic/keydown", function (payload) {
+            console.log(payload)
+            document.getElementById("message").innerText = payload.body
+        })
+    })
+
+</script>
